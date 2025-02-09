@@ -136,15 +136,16 @@ stargazer(model_sp, model_sps, model_spsc, type = "text",
                     title = "sales_promo")
 
 #sales_cpdist
-# 将年和月转换为日期
+# 競合店がすべて営業中であることを確認するために、開店日の日付形式を変換する
 store_test$CompetitionMonYEAR <- 
   as.Date(paste(store_test$CompetitionOpenSinceYear, 
                 store_test$CompetitionOpenSinceMonth, "01", sep = "-"))
 
-# 查看结果
+# 転換した結果を確認する
 print(store_test$CompetitionMonYEAR)
-
+# 競合店がすべて営業中であることを確保する
 sales_cpdist <- filter(store_test, Date >= CompetitionMonYEAR)
+
 sales_cpdist_point <- ggplot(sales_cpdist, aes( x = CompetitionDistance, y = Sales)) + 
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ x , 
